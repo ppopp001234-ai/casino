@@ -23,7 +23,7 @@ const Home = () => {
         ))}
       </main>
       <footer className="text-center py-4 text-xs text-gray-400">
-        Powered by 重毅 Casino Engine · 模組化 · 可擴充 · 永不破壞原始邏輯
+        Powered by ??? Casino Engine · 模組化 · 可擴充 · 永不破壞原始邏輯
       </footer>
     </div>
   );
