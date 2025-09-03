@@ -1,18 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>老虎機</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <div class="slot-machine">
-    <div class="reels">
-      <div class="reel" id="reel1">🍒</div>
-      <div class="reel" id="reel2">🍋</div>
-      <div class="reel" id="reel3">🍊</div>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>九格老虎機遊戲</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎰 九格老虎機遊戲</h1>
+
+    <!-- 登入區塊 -->
+    <div id="login-section">
+      <input type="text" id="username" placeholder="請輸入暱稱">
+      <button onclick="login()">登入</button>
     </div>
-    <button id="spinBtn">旋轉！</button>
-    <p id="result"></p>
-  </body>
+
+    <!-- 遊戲區塊 -->
+    <div id="game-section" style="display:none;">
+      <p>歡迎，<span id="player-name"></span>！</p>
+      <div class="grid" id="slot-grid"></div>
+      <button onclick="spin()">旋轉！</button>
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <script>
+    const symbols = ['🍒', '🍋', '🍊', '🍉', '⭐', '🔔'];
+
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      if (!username) {
+        alert('請輸入暱稱');
+        return;
+      }
+      document.getElementById('player-name').textContent = username;
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('game-section').style.display = 'block';
+    }
+
+    function spin() {
+      const grid = document.getElementById('slot-grid');
+      grid.innerHTML = '';
+
+      const cells = [];
+      const resultMatrix = [];
+
+      for (let row = 0; row < 3; row++) {
+        const rowSymbols = [];
+        for (let col = 0; col < 3; col++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          if (row === 0) cell.setAttribute('data-row', 'top');
+          if (row === 1) cell.setAttribute('data-row', 'middle');
+          if (row === 2) cell.setAttribute('data-row', 'bottom');
+          grid.appendChild(cell);
+          cells.push(cell);
+          rowSymbols.push(null);
+        }
+        resultMatrix.push(rowSymbols);
+      }
+
+      const delays = [500, 800, 1100];
+      for (let col = 0; col < 3; col++) {
+        setTimeout(() => {
+          for (let row = 0; row < 3; row++) {
+            const index = row * 3 + col;
+            const cell = cells[index];
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            resultMatrix[row][col] = symbol;
+
+            const span = document.createElement('span');
+            span.className = 'symbol';
+            span.textContent = symbol;
+            cell.innerHTML = '';
+            cell.appendChild(span);
+          }
+        }, delays[col]);
+      }
+
+      setTimeout(() => {
+        const topRow = resultMatrix[0];
+        const middleRow = resultMatrix[1];
+        const bottomRow = resultMatrix[2];
+        const resultText = document.getElementById('result');
+
+        if (topRow.every(s => s === topRow[0])) {
+          resultText.textContent = '🎉 上排中獎！';
+        } else if (middleRow.every(s => s === middleRow[0])) {
+          resultText.textContent = '🎉 中排中獎！';
+        } else if (bottomRow.every(s => s === bottomRow[0])) {
+          resultText.textContent = '🎉 下排中獎！';
+        } else {
+          resultText.textContent = '😢 沒中獎，再試一次吧！';
+        }
+      }, 1300);
+    }
+  </script>
+</body>
 </html>
