@@ -2,11 +2,11 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>老虎機</title>
+  <title>豪華老虎機</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #222;
+      background: linear-gradient(to bottom, #111, #333);
       color: #fff;
       text-align: center;
       margin: 0;
@@ -15,6 +15,12 @@
 
     .container {
       margin-top: 60px;
+      padding: 20px;
+      border: 5px solid gold;
+      border-radius: 20px;
+      box-shadow: 0 0 20px gold;
+      display: inline-block;
+      background-color: rgba(0, 0, 0, 0.6);
     }
 
     input {
@@ -26,7 +32,8 @@
     button {
       padding: 10px 20px;
       font-size: 18px;
-      background-color: #f90;
+      background-color: gold;
+      color: #000;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -42,7 +49,8 @@
     }
 
     .cell {
-      background-color: #444;
+      background: radial-gradient(circle at center, #666, #333);
+      border: 3px solid gold;
       border-radius: 10px;
       font-size: 50px;
       display: flex;
@@ -63,97 +71,51 @@
       100% { transform: translateY(0); opacity: 1; }
     }
 
-    .cell[data-row="middle"] {
-      border: 2px solid #f90;
-      box-shadow: 0 0 8px #f90;
+    .flash {
+      animation: flash 0.5s ease-in-out;
+    }
+
+    @keyframes flash {
+      0% { background-color: gold; }
+      50% { background-color: #222; }
+      100% { background-color: gold; }
+    }
+
+    .coin {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 40px;
+      animation: dropCoin 1s ease forwards;
+    }
+
+    @keyframes dropCoin {
+      0% { top: -30px; opacity: 0; }
+      50% { top: 50px; opacity: 1; }
+      100% { top: 100px; opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎰 老虎機</h1>
+  <div class="container" id="game-container">
+    <h1>🎰 豪華老虎機</h1>
 
-    <!-- 登入區塊 -->
     <div id="login-section">
       <input type="text" id="username" placeholder="請輸入暱稱">
       <button onclick="login()">登入</button>
     </div>
 
-    <!-- 遊戲區塊 -->
     <div id="game-section" style="display:none;">
       <p>歡迎，<span id="player-name"></span>！</p>
       <div class="grid" id="slot-grid"></div>
       <button onclick="spin()">旋轉！</button>
       <p id="result"></p>
+      <p>分數：<span id="score">0</span></p>
     </div>
   </div>
 
-  <script>
-    const symbols = ['🍒', '🍋', '🍊', '🍉', '⭐', '🔔'];
-
-    function login() {
-      const username = document.getElementById('username').value.trim();
-      if (!username) {
-        alert('請輸入暱稱');
-        return;
-      }
-      document.getElementById('player-name').textContent = username;
-      document.getElementById('login-section').style.display = 'none';
-      document.getElementById('game-section').style.display = 'block';
-    }
-
-    function spin() {
-      const grid = document.getElementById('slot-grid');
-      grid.innerHTML = ''; // 清空舊格子
-
-      const cells = [];
-      const resultMatrix = [];
-
-      for (let row = 0; row < 3; row++) {
-        const rowSymbols = [];
-        for (let col = 0; col < 3; col++) {
-          const cell = document.createElement('div');
-          cell.className = 'cell';
-          if (row === 0) cell.setAttribute('data-row', 'top');
-          if (row === 1) cell.setAttribute('data-row', 'middle');
-          if (row === 2) cell.setAttribute('data-row', 'bottom');
-          grid.appendChild(cell);
-          cells.push(cell);
-          rowSymbols.push(null); // 先佔位
-        }
-        resultMatrix.push(rowSymbols);
-      }
-
-      // 模擬逐輪停轉（每列 3 格）
-      const delays = [500, 800, 1100]; // 每輪停下時間
-      for (let col = 0; col < 3; col++) {
-        setTimeout(() => {
-          for (let row = 0; row < 3; row++) {
-            const index = row * 3 + col;
-            const cell = cells[index];
-            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-            resultMatrix[row][col] = symbol;
-
-            const span = document.createElement('span');
-            span.className = 'symbol';
-            span.textContent = symbol;
-            cell.innerHTML = '';
-            cell.appendChild(span);
-          }
-        }, delays[col]);
-      }
-
-      // 判斷中獎（中間橫排）
-      setTimeout(() => {
-        const middleRow = resultMatrix[1];
-        const resultText = document.getElementById('result');
-        if (middleRow.every(s => s === middleRow[0])) {
-          resultText.textContent = '🎉 中間排中獎！';
-        } else {
-          resultText.textContent = '😢 沒中獎，再試一次吧！';
-        }
-      }, 1300);
-    }
-  </script>
+  <script src="js/script.js"></script>
+  
 </body>
 </html>
