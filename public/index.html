@@ -264,4 +264,11 @@
     }
 
     function dropCoins() {
-      const container = document.getElement}
+  const container = document.getElementById('game-container');
+  // 這裡可以加入動畫或金幣掉落效果的邏輯
+  // 例如：
+  const coin = document.createElement('div');
+  coin.className = 'coin';
+  container.appendChild(coin);
+  setTimeout(() => container.removeChild(coin), 1000);
+}
