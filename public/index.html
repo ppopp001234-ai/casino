@@ -143,11 +143,11 @@
       document.getElementById('game-section').style.display = 'block';
     }
 
-    document.getElementById('username').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        login();
-      }
-    });
+    //document.getElementById('username').addEventListener('keydown', function (e) {
+     // if (e.key === 'Enter') {
+       // login();
+    //  }
+   // });
 
     function getRandomSymbol() {
       const total = symbolPool.reduce((sum, s) => sum + s.weight, 0);
