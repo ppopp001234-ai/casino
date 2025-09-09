@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.css": "/ppopp001234-ai/casino/static/css/main.31d6cfe0.css",
+    "main.js": "/ppopp001234-ai/casino/static/js/main.686c1ef2.js",
+    "index.html": "/ppopp001234-ai/casino/index.html",
+    "main.686c1ef2.js.map": "/ppopp001234-ai/casino/static/js/main.686c1ef2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31d6cfe0.css",
+    "static/js/main.686c1ef2.js"
+  ]
+}
